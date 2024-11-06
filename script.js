@@ -1,4 +1,11 @@
-document.getElementById("send-button").addEventListener("click", function () {
+document.getElementById("send-button").addEventListener("click", submitForm);
+document.getElementById("email").addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    submitForm(); // Call the submitForm function if Enter key is pressed
+  }
+});
+
+function submitForm() {
   const emailInput = document.getElementById("email");
   const email = emailInput.value;
 
@@ -63,4 +70,4 @@ document.getElementById("send-button").addEventListener("click", function () {
         message: "Error: " + error.message, // Display error message for network issues
       });
     });
-});
+}
