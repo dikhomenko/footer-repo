@@ -3,7 +3,10 @@ document.getElementById("send-button").addEventListener("click", function () {
   const email = emailInput.value;
 
   if (!emailInput.checkValidity()) {
-    alert("Please enter a valid email address.");
+    iziToast.error({
+      title: "Error",
+      message: "Please enter a valid email address.",
+    });
     return;
   }
 
@@ -21,22 +24,43 @@ document.getElementById("send-button").addEventListener("click", function () {
       return response.json().then((data) => {
         // Handle the response status
         if (response.status === 201) {
-          alert(data.message); // Success message
+          iziToast.success({
+            title: "Success",
+            message: data.message, // Show the success message
+          });
           emailInput.value = ""; // Clear input
         } else if (response.status === 400) {
-          alert(data.message); // Error message for required field
+          iziToast.error({
+            title: "Error",
+            message: data.message, // Show the error message
+          });
         } else if (response.status === 404) {
-          alert(data.message); // Service not found
+          iziToast.error({
+            title: "Error",
+            message: data.message, // Show the error message
+          });
         } else if (response.status === 409) {
-          alert(data.message); // Subscription already exists
+          iziToast.error({
+            title: "Conflict",
+            message: data.message, // Show the conflict message
+          });
         } else if (response.status === 500) {
-          alert(data.message); // Server error
+          iziToast.error({
+            title: "Server Error",
+            message: data.message, // Show the server error message
+          });
         } else {
-          alert("An unknown error occurred.");
+          iziToast.error({
+            title: "Unknown Error",
+            message: "An unknown error occurred.",
+          });
         }
       });
     })
     .catch((error) => {
-      alert("Error: " + error.message); // Display error message for network issues
+      iziToast.error({
+        title: "Error",
+        message: "Error: " + error.message, // Display error message for network issues
+      });
     });
 });
